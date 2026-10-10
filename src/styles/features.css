@@ -1,0 +1,109 @@
+/* ════════════════════════════════════════════════════════════════
+   At-a-glance cards + the four-node compass. Loaded last.
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── At a glance ── */
+.glance-sec { position: relative; padding-block: clamp(64px, 9vw, 130px); background: var(--forest-950); }
+.glance-head { margin: 14px 0 clamp(28px, 4vw, 56px); max-width: 22ch; }
+.gcards { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(12px, 1.6vw, 26px); list-style: none; }
+.gcard { position: relative; aspect-ratio: 0.84; overflow: hidden; border: 1px solid var(--cream-faint); border-radius: 6px; background: #000; }
+.gcard img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s var(--ease); }
+.gcard:hover img { transform: scale(1.06); }
+.gcard::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(7, 42, 29, 0.97) 0%, rgba(7, 42, 29, 0.74) 40%, rgba(7, 42, 29, 0.1) 72%); }
+.gcard-ico { position: absolute; z-index: 2; top: 18px; left: 18px; width: 42px; height: 42px; display: grid; place-items: center; color: var(--gold); border: 1px solid rgba(214, 178, 41, 0.5); border-radius: 50%; background: rgba(7, 42, 29, 0.6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.gcard-ico svg { width: 20px; height: 20px; }
+.gcard-body { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; padding: clamp(18px, 2vw, 30px); }
+.gcard-v { font-size: clamp(2.8rem, 5vw, 4.8rem); line-height: 0.95; color: var(--butter); }
+.gcard-l { margin-top: 12px; font-size: 0.74rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
+.gcard-t { margin-top: 10px; font-size: 0.92rem; line-height: 1.55; color: var(--cream); }
+.gcap { margin-top: clamp(28px, 4vw, 52px); text-align: center; }
+.gcap span { display: inline-flex; align-items: center; gap: 22px; font-size: 0.74rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--cream-dim); }
+.gcap span::before, .gcap span::after { content: ""; width: clamp(30px, 10vw, 120px); height: 1px; background: var(--cream-faint); }
+@media (max-width: 1000px) { .gcards { grid-template-columns: repeat(2, 1fr); } .gcard { aspect-ratio: 0.95; } }
+@media (max-width: 640px) {
+  .gcards { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .gcards::-webkit-scrollbar { display: none; }
+  .gcard { flex: 0 0 78%; scroll-snap-align: start; aspect-ratio: 0.88; }
+  .gcap span { letter-spacing: 0.2em; text-align: center; }
+  .gcap span::before, .gcap span::after { display: none; }
+}
+
+/* ── Four-node compass ── */
+.cz { position: relative; background: var(--forest-950); }
+.cz-stage { position: relative; min-height: 100vh; min-height: 100svh; overflow: hidden; display: grid; align-items: center; padding-block: calc(var(--header-h) + 24px) 64px; }
+.cz-bg { position: absolute; inset: 0; }
+.cz-bg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.04); transition: opacity 1.2s var(--ease), transform 9s linear; }
+.cz-bg img.is-on { opacity: 1; transform: scale(1.12); }
+.cz-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(7, 42, 29, 0.9) 0%, rgba(7, 42, 29, 0.5) 46%, rgba(7, 42, 29, 0.18) 100%), linear-gradient(0deg, rgba(7, 42, 29, 0.6), transparent 40%); }
+.cz-turn { position: absolute; z-index: 2; left: max(20px, env(safe-area-inset-left, 0px)); top: 50%; transform: translateY(-50%) rotate(180deg); writing-mode: vertical-rl; font-size: 0.7rem; letter-spacing: 0.42em; text-transform: uppercase; color: var(--cream-dim); }
+.cz-grid { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1.1fr) auto; gap: clamp(24px, 5vw, 80px); align-items: center; }
+.cz-copy { display: grid; gap: 16px; justify-items: start; animation: amenIn 0.8s var(--ease) both; }
+.cz-chip { display: inline-block; padding: 9px 20px; border-radius: 999px; background: var(--gold); color: #1a1405; font-size: 0.74rem; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; }
+.cz-title { display: grid; gap: 4px; line-height: 1; color: var(--cream); font-size: min(clamp(2.4rem, 6.2vw, 6.2rem), calc((100vw - 2 * var(--pad)) / 7.6)); }
+.cz-accent { color: var(--butter); font-size: 0.92em; }
+.cz-tag { font-style: italic; font-weight: 500; font-size: clamp(1.05rem, 1.6vw, 1.5rem); color: var(--cream); max-width: 34ch; }
+.cz-points { display: flex; flex-wrap: wrap; gap: 8px 22px; list-style: none; font-size: 0.74rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream); }
+.cz-points li { display: inline-flex; align-items: center; gap: 9px; }
+.cz-points li::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex: none; }
+.cz-cta { margin-top: 8px; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.82rem; }
+
+.compass { --s: clamp(250px, 27vw, 410px); --nd: clamp(52px, 5.2vw, 72px); position: relative; width: var(--s); height: var(--s); margin-inline: auto; flex: none; user-select: none; -webkit-user-select: none; }
+.compass::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(214, 178, 41, 0.5); }
+.compass::before, .compass::after { pointer-events: none; }
+.compass::after { content: ""; position: absolute; inset: -16px; border-radius: 50%; border: 1px solid rgba(214, 178, 41, 0.2); }
+.compass-ring { position: absolute; inset: 0; border-radius: 50%; transform: rotate(var(--rot)); transition: transform 1s var(--ease); cursor: grab; touch-action: pan-y; }
+.compass.is-dragging .compass-ring { cursor: grabbing; transition: none; }
+.cnode { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform: rotate(var(--a)) translateY(calc(var(--s) / -2)); }
+.cnode button {
+  position: absolute; left: 0; top: 0; width: var(--nd); height: var(--nd); margin: calc(var(--nd) / -2) 0 0 calc(var(--nd) / -2);
+  display: grid; place-items: center; border-radius: 50%;
+  background: rgba(7, 42, 29, 0.78); border: 1px solid rgba(255, 248, 223, 0.3); color: var(--cream);
+  font-family: var(--f-elegant); font-size: calc(var(--nd) * 0.34); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  transform: rotate(calc(-1 * (var(--a) + var(--rot))));   /* stays upright while the ring turns */
+  transition: transform 1s var(--ease), background 0.4s, color 0.4s, border-color 0.4s;
+}
+.compass.is-dragging .cnode button { transition: background 0.4s, color 0.4s; }
+.cnode button:hover { border-color: var(--gold); }
+.cnode button.is-on { background: var(--gold); border-color: var(--gold); color: #1a1405; }
+.cnode button.is-on::before { content: ""; position: absolute; top: -10px; left: 50%; margin-left: -6px; border: 6px solid transparent; border-top-color: var(--gold); border-bottom: 0; }
+.compass-core {
+  position: absolute; left: 50%; top: 50%; width: 46%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%;
+  display: grid; place-content: center; text-align: center; gap: 2px; pointer-events: none;
+  background: radial-gradient(circle at 40% 30%, rgba(255, 248, 223, 0.14), rgba(7, 42, 29, 0.8)); border: 1px solid rgba(255, 248, 223, 0.22);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.core-n { font-size: calc(var(--s) * 0.17); line-height: 1; color: var(--butter); animation: amenIn 0.7s var(--ease) both; }
+.core-of { font-size: 0.62rem; letter-spacing: 0.3em; text-indent: 0.3em; text-transform: uppercase; color: var(--gold); }
+.core-name { margin-top: 6px; font-family: var(--f-elegant); font-size: clamp(0.85rem, calc(var(--s) * 0.05), 1.2rem); color: var(--cream); }
+.cz-all { padding-block: 36px; text-align: center; background: var(--forest-950); }
+.cz-all .btn { letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.82rem; }
+
+@media (max-width: 1000px) {
+  .cz-turn { display: none; }
+  .cz-stage { align-items: start; padding-top: calc(var(--header-h) + 28px); padding-bottom: 96px; }
+  .cz-grid { grid-template-columns: 1fr; gap: 34px; }
+  .compass { order: -1; --s: min(66vw, 300px); --nd: 52px; margin-top: 16px; }
+  .cz-shade { background: linear-gradient(0deg, rgba(7, 42, 29, 0.94), rgba(7, 42, 29, 0.6) 55%, rgba(7, 42, 29, 0.38)); }
+}
+@media (max-width: 640px) {
+  .cz-points { gap: 8px 16px; letter-spacing: 0.14em; font-size: 0.7rem; }
+  .cz-cta { width: 100%; justify-content: center; }
+}
+/* landscape phones: copy left, compass right, side by side */
+@media (max-height: 620px) and (orientation: landscape) {
+  .cz-stage { align-items: center; padding-block: calc(var(--header-h) + 8px) 56px; }
+  .cz-grid { grid-template-columns: minmax(0, 1fr) auto; gap: 32px; }
+  .compass { order: 0; --s: min(56svh, 230px); --nd: 46px; margin-top: 0; margin-right: 24px; }
+  .cz-title { font-size: min(clamp(1.8rem, 5vw, 3rem), calc((100vw - 2 * var(--pad)) / 7.6)); }
+  .cz-copy { gap: 10px; }
+  .cz-tag { font-size: 0.95rem; }
+  .cz-points { font-size: 0.64rem; }
+  .cz-shade { background: linear-gradient(90deg, rgba(7, 42, 29, 0.9), rgba(7, 42, 29, 0.45)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .compass-ring, .cnode button, .cz-bg img { transition-duration: 0.01ms !important; }
+}
+
+/* add to src/styles/features.css */
+.count { display: inline-block; font-variant-numeric: tabular-nums; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

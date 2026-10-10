@@ -1,0 +1,174 @@
+/* ════════════════════════════════════════════════════════════════
+   Scenes: horizontal five-elements slider, semicircle day dial, brochure lettering.
+   Loaded last. Works on phones, tablets, laptops and landscape screens.
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Brochure lettering ── */
+.display { font-synthesis: none; }
+.sw { font-family: "Aladin", "Chonburi", Georgia, serif; font-weight: 400; font-size: 0.94em; }
+.amp { font-family: Cochin, "Cochin Bold", Georgia, "Times New Roman", serif; font-weight: 700; font-size: 0.88em; }
+.amen-blurb, .chap-copy > .lede { font-family: "Poppins", system-ui, sans-serif; font-style: italic; font-weight: 500; }
+
+/* ── Five elements: vertical scroll drives a HORIZONTAL slide ── */
+.tx-hint { font-size: 0.78rem; letter-spacing: 0.14em; color: var(--cream-dim); margin-top: 6px; }
+.tx { position: relative; height: calc((var(--n) + 1) * 100svh); background: var(--forest-950); }
+.tx-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: var(--forest-900); }
+@supports (height: 100lvh) { .tx-stage { height: 100lvh; } }
+.tx-track { display: flex; height: 100%; width: calc(var(--n) * 100%); will-change: transform; }
+.tx-panel { position: relative; flex: 0 0 calc(100% / var(--n)); height: 100%; overflow: hidden; display: flex; align-items: flex-end; }
+.tx-panel img { position: absolute; top: 0; left: -6%; width: 112%; height: 100%; max-width: none; object-fit: cover; }
+.tx-shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(7, 42, 29, 0.94) 0%, rgba(7, 42, 29, 0.4) 52%, rgba(7, 42, 29, 0.18) 100%), linear-gradient(90deg, rgba(7, 42, 29, 0.62), transparent 66%); }
+.tx-body { position: relative; z-index: 2; display: grid; gap: 14px; justify-items: start; padding-bottom: 130px; }
+@supports (height: 100lvh) { .tx-body { padding-bottom: calc(130px + (100lvh - 100svh) + env(safe-area-inset-bottom, 0px)); } }
+.tx-chip { display: inline-flex; align-items: center; gap: 10px; padding: 7px 18px 7px 12px; border-radius: 999px; background: var(--c); color: var(--on); font-weight: 500; font-size: 0.84rem; letter-spacing: 0.04em; }
+.tx-chip svg { width: 18px; height: 18px; }
+.tx-word { font-size: clamp(4rem, 13vw, 12rem); line-height: 0.9; color: var(--butter); }
+.tx-text { max-width: 52ch; color: var(--cream); font-size: clamp(0.92rem, 1.15vw, 1.08rem); }
+
+.tx-ui { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+.tx-ui > * { pointer-events: auto; }
+.tx-top { position: absolute; top: calc(var(--header-h) + 18px + env(safe-area-inset-top, 0px)); right: max(var(--pad), env(safe-area-inset-right, 0px)); }
+.tx-count { font-family: var(--f-elegant); font-size: 1.5rem; color: var(--cream); font-variant-numeric: tabular-nums; }
+.tx-count i { font-style: normal; font-size: 0.9rem; color: var(--cream-dim); }
+.tx-nav { position: absolute; left: max(var(--pad), env(safe-area-inset-left, 0px)); right: max(var(--pad), env(safe-area-inset-right, 0px)); bottom: 36px; display: flex; gap: 8px; }
+@supports (height: 100lvh) { .tx-nav { bottom: calc(36px + (100lvh - 100svh) + env(safe-area-inset-bottom, 0px)); } }
+.tx-nav button { flex: 1; display: grid; gap: 8px; text-align: left; padding-block: 8px; }
+.tx-bar { display: block; height: 2px; background: var(--cream-faint); overflow: hidden; }
+.tx-bar span { display: block; height: 100%; background: var(--gold); transform-origin: left; transform: scaleX(0); }
+.tx-lab { font-size: 0.76rem; color: var(--cream-dim); transition: color 0.3s; }
+.tx-nav button.is-on .tx-lab { color: var(--cream); font-weight: 500; }
+@media (min-width: 1001px) { .tx-nav { padding-right: 210px; } }   /* keep clear of the floating button */
+
+/* tablets + phones: progress bar sits ABOVE the floating button, copy sits above the bar */
+@media (max-width: 1000px) {
+  .tx-nav { bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+  @supports (height: 100lvh) { .tx-nav { bottom: calc(84px + (100lvh - 100svh) + env(safe-area-inset-bottom, 0px)); } }
+  .tx-body { padding-bottom: 200px; }
+  @supports (height: 100lvh) { .tx-body { padding-bottom: calc(200px + (100lvh - 100svh) + env(safe-area-inset-bottom, 0px)); } }
+  .tx-nav button { padding-block: 12px; }
+}
+@media (max-width: 640px) {
+  .tx-nav { gap: 6px; }
+  .tx-lab { font-size: 0.7rem; }
+  .tx-word { font-size: clamp(3.6rem, 19vw, 5.2rem); }
+}
+.tx-count { text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55); }
+/* short portrait screens (e.g. iPhone SE): tighter copy */
+@media (max-height: 700px) and (max-width: 640px) {
+  .tx-body { gap: 8px; }
+  .tx-word { font-size: clamp(3rem, 16vw, 4.2rem); }
+  .tx-text { font-size: 0.86rem; }
+}
+/* landscape phones: compact copy; the bar moves down and stops short of the floating button */
+@media (max-height: 620px) and (orientation: landscape) {
+  .tx-body { padding-bottom: 70px; gap: 8px; }
+  @supports (height: 100lvh) { .tx-body { padding-bottom: calc(70px + (100lvh - 100svh)); } }
+  .tx-word { font-size: clamp(2.4rem, 9vw, 4.4rem); }
+  .tx-text { font-size: 0.82rem; max-width: 64ch; }
+  .tx-nav { bottom: 12px; padding-right: 176px; }
+  @supports (height: 100lvh) { .tx-nav { bottom: calc(12px + (100lvh - 100svh)); } }
+  .tx-nav button { padding-block: 4px; gap: 4px; }
+  .tx-top { top: calc(var(--header-h) + 6px); }
+}
+/* reduced motion: no pinned sideways slide, just a calm stacked list */
+@media (prefers-reduced-motion: reduce) {
+  .tx { height: auto; }
+  .tx-stage { position: relative; height: auto; }
+  .tx-track { display: block; width: auto; transform: none !important; }
+  .tx-panel { height: 100svh; min-height: 520px; flex: none; }
+  .tx-panel img, .tx-body { transform: none !important; }
+  .tx-ui, .tx-hint { display: none; }
+}
+
+/* ── A day at The Nature City: true semicircle, centred, on every device ── */
+.day-left { justify-items: center; text-align: center; gap: 10px; }
+.day-left .kicker { justify-content: center; }
+.sun-dial { position: relative; width: min(100%, 560px, max(230px, 46svh)); aspect-ratio: 400 / 214; margin-inline: auto; container-type: inline-size; }
+.sun-dial svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.sun-time { position: absolute; left: 0; right: 0; bottom: 4%; text-align: center; line-height: 1; font-size: clamp(2.6rem, 12vw, 6.4rem); font-variant-numeric: tabular-nums; animation: amenIn 0.7s var(--ease) both; }
+@supports (container-type: inline-size) { .sun-time { font-size: clamp(2.4rem, 21cqw, 8rem); } }
+.day-place { font-family: var(--f-elegant); font-size: clamp(1.4rem, 2.4vw, 2.2rem); color: var(--gold); }
+.day-cap { max-width: 40ch; }
+@media (max-width: 1000px) {
+  .day-grid { gap: 12px; }
+  .day-card { max-height: 30svh; }
+}
+@media (max-height: 760px) and (max-width: 640px) {
+  .day-card { max-height: 24svh; }
+  .day-left { gap: 4px; }
+  .day-cap { font-size: 0.9rem; }
+}
+@media (max-height: 620px) and (orientation: landscape) and (max-width: 1000px) {
+  .sun-dial { width: min(100%, 300px, max(180px, 52svh)); }
+}
+
+/* Day on short screens: stays pinned, copy is compact */
+@media (max-height: 620px) {
+  .day-ticks { bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+  @supports (height: 100lvh) { .day-ticks { bottom: calc(84px + (100lvh - 100svh) + env(safe-area-inset-bottom, 0px)); } }
+}
+@media (max-height: 620px) and (orientation: landscape) {
+  .day-ticks { bottom: 14px; padding-right: calc(var(--pad) + 150px); }
+  @supports (height: 100lvh) { .day-ticks { bottom: calc(14px + (100lvh - 100svh)); } }
+  .day-card { max-height: 58svh; }
+  .day-left { gap: 2px; }
+  .day-cap { font-size: 0.84rem; }
+  .day-place { font-size: 1.2rem; }
+  .day-ticks .tick-t { display: none; }
+}
+@media (max-height: 620px) and (orientation: portrait) {
+  .sun-dial { width: min(100%, 560px, 230px); }
+}
+
+/* ── Headline sizing: the brochure display face is wide, so size the title so its longest word always fits ── */
+.amen-title { font-size: min(clamp(3.2rem, 8vw, 7.6rem), calc((100vw - 2 * var(--pad)) / 8.2)); overflow-wrap: anywhere; }
+.chap-copy { min-width: 0; }
+.chap-title { font-size: min(clamp(2.6rem, 6vw, 5.4rem), calc((100vw - 2 * var(--pad)) / 8.2)); overflow-wrap: anywhere; }
+@supports (container-type: inline-size) {
+  .chap-copy { container-type: inline-size; }
+  .chap-title { font-size: min(clamp(2.6rem, 6vw, 5.4rem), 12.2cqw); }
+}
+
+/* Day: very short portrait phones (iPhone SE class) — keep the caption clear of the progress bar */
+@media (max-height: 620px) and (orientation: portrait) {
+  .day-card { aspect-ratio: auto; height: 18svh; max-height: none; width: 100%; }
+  .sun-dial { width: min(100%, 200px); }
+  .day-cap { font-size: 0.84rem; max-width: 32ch; }
+  .day-place { font-size: 1.15rem; }
+}
+
+/* ── Entrance gate (matches the micasa reference: gold icons, spaced name, logo, "tap to enter") ── */
+.preloader { background: var(--forest-950); cursor: pointer; gap: clamp(14px, 3svh, 26px); padding: 24px; text-align: center; }
+.pre-icons { color: var(--gold); gap: clamp(12px, 2.4svh, 20px); }
+.pre-icons span { width: 30px; height: 30px; }
+.pre-icons svg { stroke-width: 1.2; }
+.pre-label { font-family: var(--f-elegant); font-size: clamp(0.7rem, 3.1vw, 1rem); letter-spacing: 0.46em; text-indent: 0.46em; text-transform: uppercase; color: var(--cream); margin-top: clamp(4px, 1.5svh, 14px); max-width: 92vw; line-height: 1.7; }
+.pre-logo { margin-top: clamp(4px, 1.5svh, 12px); }
+.pre-tap {
+  position: absolute; left: 50%; transform: translateX(-50%); bottom: max(34px, calc(env(safe-area-inset-bottom, 0px) + 22px));
+  padding: 14px 22px; font-size: 0.72rem; letter-spacing: 0.4em; text-indent: 0.4em; text-transform: uppercase; color: var(--cream-dim);
+  opacity: 0; animation: fadeIn 0.9s 1.4s forwards;   /* quiet "skip" hint; the entrance lifts by itself */
+}
+.pre-tap:hover, .pre-tap:focus-visible { color: var(--gold); }
+@keyframes tapPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+@media (max-height: 620px) {
+  .preloader { gap: 8px; }
+  .pre-icons { flex-direction: row; gap: 20px; }
+  .pre-icons span { width: 24px; height: 24px; }
+  .pre-tap { bottom: 10px; padding: 8px 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pre-icons span, .pre-label, .pre-logo, .pre-tap { animation-delay: 0s !important; animation-duration: 0.01s !important; }
+}
+html.is-gated, html.is-gated body { overflow: hidden; }
+.preloader { touch-action: none; overscroll-behavior: contain; }
+.pre-tap { white-space: nowrap; outline: none; border-radius: 0; }
+.pre-tap:focus-visible { text-decoration: underline; text-underline-offset: 8px; }
+@media (max-width: 380px) { .pre-tap { letter-spacing: 0.3em; text-indent: 0.3em; } }
+
+/* Entrance timing: the whole intro fits inside 2 seconds, then lifts */
+.preloader { transition: transform 0.8s var(--ease), opacity 0.8s var(--ease); }
+.pre-icons span { animation-duration: 0.45s; }
+.pre-label { animation: fadeIn 0.4s 0.7s forwards; }
+.pre-logo { animation: fadeIn 0.5s 0.85s forwards; }
+.pre-tap { animation: fadeIn 0.4s 0.8s forwards; }
