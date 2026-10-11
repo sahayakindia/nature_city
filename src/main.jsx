@@ -13,6 +13,7 @@ import "./styles/site.css";
 import "./styles/responsive.css";
 import "./styles/scenes.css";
 import "./styles/features.css";
+import "./styles/genie.css";
 import App from "./App.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -25,7 +25,7 @@ export default function Hero() {
 
       <div className="container hero-body">
         <h1 className="display hero-title">
-          <span className="hero-line"><span>A 90-Acre Township</span></span>
+          <span className="hero-line"><span>A 90-acre township</span></span>
           <span className="hero-line"><span className="accent hero-accent">grown around nature.</span></span>
         </h1>
         <p className="lede hero-sub">

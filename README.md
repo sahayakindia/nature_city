@@ -76,3 +76,8 @@ Heading colours are the exact brochure values (`src/data/amenities.js`); panel g
 - `sections/Glance.jsx`: the four image cards (90 acres · 250+ amenities · 17 gardens · 05 elements). They sit in their own section right after the hero, not inside the home banner. Edit the cards in `src/data/featured.js` (`GLANCE_CARDS`).
 - `sections/Compass.jsx`: the four-zone compass (Gardens · Sports · Club House · Plots). Each zone has a chip, title, tagline, three bullets and an "Explore" button; "View all amenities" sits below. Edit zones in `src/data/featured.js` (`COMPASS`).
   Controls: click/tap a number, ← → keys, swipe, or drag the ring with a mouse. It auto-advances while in view and pauses on hover/focus.
+
+## Floating quote button (`components/GetInTouch.jsx`, `components/PlotScene.jsx`, `styles/genie.css`)
+A real-estate scene sits on the button: a plot is surveyed, a house draws itself, a map pin drops onto the plot, birds drift through the air and grass sways (one 8-second loop). The "Get a quote" text is a small signboard hanging from two chains that swings in the breeze (stronger on hover/click); change the text with `LABEL` at the top of `GetInTouch.jsx`.
+A signboard-style hint pops out ~3.5 s after the entrance with a message for the part of the page being viewed (hero, at-a-glance, elements, compass zone, day, masterplan, location, about; plus /layout, /amenities, /gallery, /about). On the masterplan and layout page it shows the live count of available plots from `public/plot-status.json`.
+Polite by design: max 8 hints per visit, 12 s between hints, never while the menu / pop-up is open, hidden while the enquiry form is on screen, "x" turns hints off for the visit, and reduced-motion users get a still, finished scene.
