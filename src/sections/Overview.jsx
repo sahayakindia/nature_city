@@ -41,7 +41,7 @@ export default function Overview() {
           <p className="lede">
             Wide internal roads, underground utilities, reliable water supply, efficient drainage, street lighting, security systems and professionally planned facility services — with excellent NH-26 connectivity.
           </p>
-          <Link className="btn btn-ghost" to="/amenities">Explore Amenity <Arrow /></Link>
+          <Link className="btn btn-ghost" to="/amenities">Explore Amenities <Arrow /></Link>
         </div>
 
         <div className="overview-media">

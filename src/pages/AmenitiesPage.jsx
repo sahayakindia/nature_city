@@ -38,7 +38,7 @@ export default function AmenitiesPage() {
   const [active, setActive] = useState("");
   return (
     <>
-      <PageHead kicker="Amenities" title="250+ amenities," accent="inside the gates." image="/images/clubhouse-lawn.webp">
+      <PageHead kicker="Amenities" title="250+ Amenities," accent="inside the gates." image="/images/clubhouse-lawn.webp">
         Gardens, sports, wellness, a clubhouse and pool — plus the quiet services that keep a township running.
       </PageHead>
       <nav className="chap-nav" aria-label="Amenity chapters">
