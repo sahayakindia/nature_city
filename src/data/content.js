@@ -19,7 +19,7 @@ export const HERO_SLIDES = [
 
 export const GLANCE = [
   { value: "90", unit: "acres", label: "Premium plotted township on NH-26" },
-  { value: "250+", unit: "", label: "Amenities and facilities across the township" },
+  { value: "250", unit: "", label: "Amenities and facilities across the township" },
   { value: "77", unit: "", label: "Numbered landmarks on the masterplan" },
   { value: "50", unit: "km", label: "From Visakhapatnam" },
 ];
