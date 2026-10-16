@@ -4,7 +4,7 @@ import { TathvaIcon } from "./Icons";
 import { lockScroll } from "../hooks/lenis";
 
 const ICONS = ["earth", "water", "fire", "air", "space"];
-const SHOW_MS = 2000;   // the entrance lifts on its own after 2 seconds
+const SHOW_MS = 3000;   // the entrance lifts on its own after 2 seconds
 const LEAVE_MS = 800;   // lift-away animation
 let shownThisLoad = false; // plays on every fresh load / refresh, not on in-app navigation
 
