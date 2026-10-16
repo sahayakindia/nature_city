@@ -1,0 +1,81 @@
+/* ════════ Floating "Get a quote" button: a land-plot scene + a signboard hint ════════ */
+.gt { position: fixed; z-index: 80; right: max(20px, env(safe-area-inset-right, 0px)); bottom: max(20px, env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; align-items: flex-end; pointer-events: none; transition: transform 0.35s var(--ease), opacity 0.3s; }
+.gt > * { pointer-events: auto; }
+.gt.is-away { opacity: 0; transform: translateY(16px); }
+.gt.is-away * { pointer-events: none; }
+
+.gt-btn { position: relative; display: flex; align-items: center; gap: 14px; padding: 6px 6px 6px 16px; border-radius: 999px; background: rgba(28, 36, 28, 0.88); border: 1px solid var(--cream-faint); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: var(--cream); font-size: 0.8rem; letter-spacing: 0.02em; font-weight: 600; transition: transform 0.3s var(--ease), border-color 0.3s; }
+.gt-btn:hover, .gt-btn:focus-visible { transform: translateY(-2px); border-color: var(--gold); }
+
+/* the round scene badge + a "location ping" ring */
+.gt-badge { position: relative; width: 52px; height: 52px; flex: none; border-radius: 50%; transition: transform 0.4s var(--ease); }
+.gt-badge .ps { display: block; width: 100%; height: 100%; overflow: visible; }
+.gt-badge::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--gold); animation: psPing 2.6s ease-out infinite; pointer-events: none; }
+.gt-btn:hover .gt-badge { transform: scale(1.07); }
+.gt-badge.hop { animation: psHop 0.75s var(--ease); }
+@keyframes psPing { 0% { transform: scale(1); opacity: 0.7; } 100% { transform: scale(1.7); opacity: 0; } }
+@keyframes psHop { 0%, 100% { transform: translateY(0); } 35% { transform: translateY(-7px) scale(1.05); } 65% { transform: translateY(0); } 80% { transform: translateY(-2px); } }
+
+/* ── the scene: one 8-second loop ──
+   0–6% plot appears · 5–36% house draws (walls, roof, door) · 42–60% pin drops + bounces · 54–70% ripple · hold · fade */
+.ps-plot { animation: psPlot 8s ease-in-out infinite; }
+.ps-wall, .ps-roof, .ps-door { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.ps-wall { animation: psWall 8s ease-in-out infinite; }
+.ps-roof { animation: psRoof 8s ease-in-out infinite; }
+.ps-door { animation: psDoor 8s ease-in-out infinite; }
+.ps-win { animation: psWin 8s ease-in-out infinite; }
+.ps-pin { animation: psPin 8s cubic-bezier(0.3, 0.7, 0.4, 1) infinite; }
+.ps-ripple { transform-box: fill-box; transform-origin: center; opacity: 0; animation: psRipple 8s ease-out infinite; }
+.ps-sun { transform-box: fill-box; transform-origin: center; animation: psSun 4s ease-in-out infinite; }
+.ps-grass path { transform-box: fill-box; transform-origin: 50% 100%; animation: psSway 3s ease-in-out infinite alternate; }
+.ps-grass path:nth-child(2) { animation-delay: -1s; } .ps-grass path:nth-child(3) { animation-delay: -2s; }
+.ps-bird { animation: psFly 9s linear infinite; }
+.ps-bird.b2 { animation-delay: -4.5s; animation-duration: 12s; opacity: 0.75; }
+.ps-wing { transform-box: fill-box; transform-origin: center; animation: psFlap 0.5s ease-in-out infinite alternate; }
+@keyframes psPlot { 0%, 3% { opacity: 0; } 9%, 88% { opacity: 1; } 96%, 100% { opacity: 0; } }
+@keyframes psWall { 0%, 5% { stroke-dashoffset: 1; opacity: 1; } 20% { stroke-dashoffset: 0; } 90% { stroke-dashoffset: 0; opacity: 1; } 97%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes psRoof { 0%, 18% { stroke-dashoffset: 1; opacity: 1; } 34% { stroke-dashoffset: 0; } 90% { stroke-dashoffset: 0; opacity: 1; } 97%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes psDoor { 0%, 32% { stroke-dashoffset: 1; opacity: 1; } 40% { stroke-dashoffset: 0; } 90% { stroke-dashoffset: 0; opacity: 1; } 97%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes psWin { 0%, 38% { opacity: 0; } 46%, 88% { opacity: 1; } 96%, 100% { opacity: 0; } }
+@keyframes psPin { 0%, 41% { transform: translateY(-34px); opacity: 0; } 43% { opacity: 1; } 52% { transform: translateY(0); } 56% { transform: translateY(-5px); } 60% { transform: translateY(0); } 90% { transform: translateY(0); opacity: 1; } 97%, 100% { transform: translateY(0); opacity: 0; } }
+@keyframes psRipple { 0%, 52% { opacity: 0; transform: scale(0.3); } 54% { opacity: 0.9; } 72%, 100% { opacity: 0; transform: scale(2.6); } }
+@keyframes psSun { 0%, 100% { transform: scale(1); opacity: 0.95; } 50% { transform: scale(1.14); opacity: 1; } }
+@keyframes psSway { from { transform: rotate(-7deg); } to { transform: rotate(7deg); } }
+@keyframes psFly { 0% { transform: translate(-14px, 9px); } 50% { transform: translate(28px, 4px); } 100% { transform: translate(72px, 10px); } }
+@keyframes psFlap { from { transform: scaleY(1); } to { transform: scaleY(0.35); } }
+
+/* the hint: a little plot signboard planted on a stake above the button */
+.gt-bubble { position: relative; margin-bottom: 24px; max-width: min(262px, 74vw); padding: 12px 34px 12px 14px; border-radius: 10px; background: var(--cream); color: var(--forest-950); border: 1px solid rgba(214, 178, 41, 0.7); box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4); transform-origin: 90% 100%; animation: gtPop 0.55s var(--ease) both; }
+.gt-bubble.is-out { animation: gtOut 0.3s ease both; }
+.gt-bubble::after { content: ""; position: absolute; right: 28px; bottom: -24px; width: 5px; height: 24px; background: linear-gradient(#9a7430, #5c4519); clip-path: polygon(0 0, 100% 0, 100% 78%, 50% 100%, 0 78%); }
+.gt-say { display: block; text-align: left; font: inherit; font-size: 0.86rem; line-height: 1.42; font-weight: 500; color: inherit; cursor: pointer; }
+.gt-say::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50% 50% 50% 0; background: var(--gold); transform: rotate(-45deg); vertical-align: 1px; }
+.gt-x { position: absolute; top: 6px; right: 8px; width: 22px; height: 22px; border-radius: 50%; font-size: 1.05rem; line-height: 1; color: rgba(7, 42, 29, 0.55); }
+.gt-x:hover { color: var(--forest-950); background: rgba(7, 42, 29, 0.08); }
+@keyframes gtPop { from { opacity: 0; transform: translateY(12px) scale(0.7); } 60% { transform: translateY(-2px) scale(1.04); } to { opacity: 1; transform: none; } }
+@keyframes gtOut { to { opacity: 0; transform: translateY(8px) scale(0.85); } }
+
+/* "Get a quote" is a little plot signboard hanging from two chains, swinging in the breeze */
+.gt-sign { position: relative; display: block; transform-origin: 50% -8px; animation: gtSwing 6s ease-in-out infinite; will-change: transform; }
+.gt-sign::before { content: ""; position: absolute; left: 50%; top: -10px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--gold); }
+.gt-chain { position: absolute; left: 0; right: 0; bottom: 100%; width: 100%; height: 8px; overflow: visible; pointer-events: none; }
+.gt-chain path { fill: none; stroke: var(--gold); stroke-width: 1; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.gt-plate { display: block; padding: 4px 12px; border-radius: 5px; background: rgba(255, 248, 223, 0.07); border: 1px solid rgba(214, 178, 41, 0.5); white-space: nowrap; }
+.gt-btn:hover .gt-sign, .gt-btn:focus-visible .gt-sign, .gt.is-burst .gt-sign { animation: gtSwingHard 1.5s ease-in-out infinite; }
+@keyframes gtSwing {
+  0% { transform: rotate(0); } 6% { transform: rotate(7deg); } 14% { transform: rotate(-6deg); } 22% { transform: rotate(4.5deg); }
+  30% { transform: rotate(-3deg); } 38% { transform: rotate(1.8deg); } 46% { transform: rotate(-0.8deg); } 54% { transform: rotate(0); }
+  66% { transform: rotate(0.7deg); } 80% { transform: rotate(-0.7deg); } 92% { transform: rotate(0.4deg); } 100% { transform: rotate(0); }
+}
+@keyframes gtSwingHard { 0%, 100% { transform: rotate(0); } 22% { transform: rotate(10deg); } 50% { transform: rotate(-9deg); } 78% { transform: rotate(6deg); } }
+
+@media (max-width: 640px) { .gt { right: max(12px, env(safe-area-inset-right, 0px)); bottom: max(12px, env(safe-area-inset-bottom, 0px)); } }
+@media (max-width: 380px) { .gt-btn { padding-left: 16px; gap: 10px; font-size: 0.74rem; } .gt-badge { width: 46px; height: 46px; } }
+/* reduced motion: a still, finished scene (house built, pin on the plot) */
+@media (prefers-reduced-motion: reduce) {
+  .gt *, .gt-badge::after { animation: none !important; transition-duration: 0.01ms !important; }
+  .gt-badge::after { display: none; }
+  .ps-ripple { opacity: 0; }
+  .ps-bird { display: none; }
+}
+@media print { .gt { display: none !important; } }

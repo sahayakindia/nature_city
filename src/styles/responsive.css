@@ -1,0 +1,136 @@
+/* ════════════════════════════════════════════════════════════════
+   Responsive layer — loaded after site.css so it wins at equal specificity.
+   Covers: phones (portrait + landscape), small phones, tablets, laptops, large/4K screens,
+   notches / home-indicator safe areas, mobile browser toolbars (svh / lvh) and touch ergonomics.
+   Breakpoints: ≤380 · ≤640 · 641–1000 (tablet) · ≥1800 · ≥2400 · short screens (≤620px tall)
+   ════════════════════════════════════════════════════════════════ */
+
+html { -webkit-tap-highlight-color: transparent; scroll-padding-top: calc(var(--header-h) + 12px); }
+a, button, [role="tab"], input, select, textarea, label { touch-action: manipulation; }
+img, video { max-width: 100%; }
+
+/* ── 1. Mobile browser toolbars: pinned panels use the LARGE viewport so no gap appears when the
+        URL bar hides, and extra bottom padding keeps text clear of the bar when it shows. ── */
+@supports (height: 100lvh) {
+  .day-pin { height: 100lvh; min-height: 0; padding-bottom: calc(100lvh - 100svh); }
+  .day-ticks { bottom: calc(30px + (100lvh - 100svh)); }
+  .page-head { min-height: 62svh; }
+  .modal-card { max-height: 92svh; }
+  .pz-stage { max-height: 78svh; }
+  .lightbox img { max-height: calc(100svh - 160px); }
+}
+
+/* ── 2. Notches, rounded corners and the iOS home indicator ── */
+.header {
+  padding-top: env(safe-area-inset-top, 0px);
+  height: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+  padding-left: max(var(--pad), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--pad), env(safe-area-inset-right, 0px));
+}
+.container {
+  padding-left: max(var(--pad), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--pad), env(safe-area-inset-right, 0px));
+}
+.touch-pill { right: max(20px, env(safe-area-inset-right, 0px)); bottom: max(20px, env(safe-area-inset-bottom, 0px)); transition: transform 0.35s var(--ease), opacity 0.3s; }
+.touch-pill.is-away { opacity: 0; transform: translateY(16px); pointer-events: none; }
+.pre-skip { bottom: max(32px, env(safe-area-inset-bottom, 0px)); right: max(var(--pad), env(safe-area-inset-right, 0px)); }
+.menu-inner { padding-top: calc(120px + env(safe-area-inset-top, 0px)); padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px)); }
+.modal { padding: max(20px, env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-right, 0px)) max(20px, env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px)); }
+.lightbox { padding-bottom: max(40px, env(safe-area-inset-bottom, 0px)); }
+.footer { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 84px); }  /* keeps the floating pill off the last line */
+.mp-scroll, .strip-scroll, .amen-tabs, .chips { overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; }
+
+/* ── 3. Map viewer on touch: fill the screen height and pan sideways instead of shrinking to a sliver ── */
+.pz-stage { aspect-ratio: var(--ar, 16 / 9); }
+.hint-touch { display: none; }
+@media (hover: none) { .hint-mouse { display: none; } .hint-touch { display: inline; } }
+@media (max-width: 700px) { .pz-stage { aspect-ratio: 4 / 5; } }
+
+/* ── 4. Touch ergonomics: 44px+ targets, 16px inputs (stops iOS auto-zoom) ── */
+@media (pointer: coarse) {
+  .chips button, .seg button, .amen-tabs button { min-height: 44px; padding-inline: 18px; display: inline-flex; align-items: center; }
+  .day-ticks button { padding-block: 14px; }
+  .field input, .field select, .field textarea, .search input { font-size: 16px; }
+  .field input, .field select { min-height: 46px; }
+  .search input { min-height: 48px; }
+  .menu nav a { padding-block: 4px; }
+  .footer a, .link { display: inline-block; padding-block: 6px; }
+  .icon-btn, .menu-btn { width: 48px; height: 48px; }
+  .dial-dot { width: 44px; height: 44px; margin: -22px 0 0 -22px; }
+}
+@media (hover: none) { .touch-pill:hover, .btn:hover svg { transform: none; } }
+
+/* ── 5. Tablet portrait (641–1000px) ── */
+@media (min-width: 641px) and (max-width: 1000px) {
+  .menu-inner { grid-template-columns: 1.2fr 1fr; gap: 32px; }
+  .menu-aside { border-left: 1px solid var(--cream-faint); border-top: 0; padding: 0 0 0 32px; }
+  .about-stats { grid-template-columns: repeat(3, 1fr); }
+  .chap-group ul { columns: 2; }
+  .enquire-card { max-width: 760px; margin-inline: auto; }
+  .overview-media { max-width: 640px; }
+  .lightbox { padding-inline: 72px; }
+  .lb-nav { top: 50%; bottom: auto; transform: translateY(-50%); }
+}
+
+/* ── 6. Phones ── */
+@media (max-width: 640px) {
+  .section-pad { padding-block: clamp(56px, 14vw, 88px); }
+  .btn { padding: 0 24px; }
+  .hero-foot { padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+  .day-ticks { bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+  .amen-tabs { bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+  .modal { align-items: end; padding-bottom: 0; }
+  .modal-card { border-radius: 18px 18px 0 0; padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px)); width: 100%; }
+  .legend-head { grid-template-columns: 1fr; }
+  .search input { width: 100%; }
+  .enq .btn, .enquire-form .btn { justify-self: stretch; justify-content: center; }
+  .page-head { min-height: 56svh; }
+}
+@media (max-width: 380px) {
+  :root { --pad: 18px; }
+  .touch-pill { padding-left: 16px; gap: 10px; font-size: 0.72rem; }
+  .touch-dot { width: 34px; height: 34px; }
+  .hero-title { font-size: clamp(2.2rem, 11.5vw, 3rem); }
+  .day-time { font-size: clamp(3.2rem, 17vw, 4.4rem); }
+  .glance-v .display { font-size: 1.7rem; }
+  .btn { font-size: 0.88rem; padding: 0 20px; }
+}
+
+/* ── 7. Short screens (landscape phones, small browser windows): pinned panels become normal flowing
+        sections so nothing is ever cut off ── */
+@media (max-height: 620px) {
+  :root { --header-h: 64px; }
+  .day-ticks { bottom: 28px; }
+  .day-time { font-size: clamp(3rem, 9vw, 5rem); }
+  .amen { padding-block: calc(var(--header-h) + 24px) 150px; }
+  .amen-title { font-size: clamp(2.4rem, 7vw, 4.5rem); }
+  .menu-inner { padding-block: calc(84px + env(safe-area-inset-top, 0px)) 32px; gap: 24px; align-items: start; }
+  .menu nav a { font-size: clamp(1.5rem, 4vw, 2.2rem); }
+  .hero { min-height: max(100svh, 440px); }
+  .page-head { min-height: 74svh; }
+  .modal { align-items: center; padding-bottom: max(20px, env(safe-area-inset-bottom, 0px)); }
+  .modal-card { border-radius: 14px; max-height: 94svh; }
+}
+@media (max-height: 620px) and (orientation: landscape) and (max-width: 1000px) {
+  .day-grid { grid-template-columns: 1fr 1fr; gap: 24px; padding-top: 0; }
+  .day-card { order: 0; max-height: none; aspect-ratio: 4 / 3; }
+  .menu-inner { grid-template-columns: 1.2fr 1fr; }
+  .menu-aside { border-left: 1px solid var(--cream-faint); border-top: 0; padding: 0 0 0 32px; }
+  .overview-grid, .loc-grid, .sus-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── 8. Large monitors and 4K ── */
+@media (min-width: 1800px) { :root { --maxw: 1560px; } html { font-size: 112.5%; } }
+@media (min-width: 2400px) { :root { --maxw: 1800px; } html { font-size: 125%; } }
+
+/* preloader on short screens: icons in a row so the logo is never cut off */
+@media (max-height: 620px) {
+  .preloader { gap: 10px; overflow: hidden; }
+  .pre-icons { flex-direction: row; gap: 20px; }
+  .pre-icons span { width: 24px; height: 24px; }
+  .pre-label { margin-top: 0; }
+  .pre-logo { transform: scale(0.8); }
+}
+.pre-skip { padding: 12px; }
+
+@media print { .touch-pill, .header, .menu, .preloader { display: none !important; } }

@@ -1,0 +1,83 @@
+/* ════════════════════════════════════════════════════════════════
+   A day at The Nature City — cinematic grade + living sky.
+   Selectors start with ".day" so they always win over older rules.
+   The sky colour, light level, stars and warmth are set from Day.jsx as --s0 --s1 --light --star --warm.
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── the sky: a continuous colour grade (keeps the warm brown of 16:00) ── */
+.day .day-sky { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.day .day-sky > * { position: absolute; inset: 0; }
+.day .day-bg { background: linear-gradient(170deg, var(--s0, #26345a) 0%, var(--s1, #d98a5f) 140%); }
+/* golden-hour wash that glows behind the photo, stronger at sunrise and sunset */
+.day .day-wash { background: radial-gradient(70% 60% at 80% 85%, rgba(255, 170, 90, calc(var(--warm, 0) * 0.26)), transparent 62%), radial-gradient(50% 45% at 12% 100%, rgba(255, 150, 80, calc(var(--warm, 0) * 0.14)), transparent 70%); }
+.day .day-veil { background: radial-gradient(120% 90% at 20% 40%, rgba(3, 12, 10, 0.55), rgba(3, 12, 10, 0.78)); }
+.day .day-vignette { background: radial-gradient(130% 100% at 50% 45%, transparent 55%, rgba(0, 0, 0, 0.42)); }
+.day .day-grain { opacity: 0.07; mix-blend-mode: overlay; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/></svg>"); animation: dayGrain 0.9s steps(4) infinite; }
+@keyframes dayGrain { 0% { background-position: 0 0; } 25% { background-position: -40px 25px; } 50% { background-position: 30px -35px; } 75% { background-position: -20px -10px; } 100% { background-position: 0 0; } }
+
+/* stars fade in as the evening arrives, and twinkle */
+.day .day-stars { opacity: var(--star, 0); -webkit-mask-image: linear-gradient(#000 35%, transparent 88%); mask-image: linear-gradient(#000 35%, transparent 88%); }
+.day .day-stars i { position: absolute; border-radius: 50%; background: #fff8df; animation: dayTwinkle var(--t) ease-in-out var(--d) infinite; }
+@keyframes dayTwinkle { 0%, 100% { opacity: 0.25; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.25); } }
+
+/* golden dust drifting up through the light */
+.day .day-motes { opacity: calc(0.2 + var(--light, 1) * 0.6); }
+.day .day-motes i { position: absolute; bottom: -12px; border-radius: 50%; background: radial-gradient(circle, #ffe7a8, #ffcf70 60%, transparent 70%); filter: blur(0.6px); opacity: 0; animation: dayMote var(--t) linear var(--d) infinite; }
+@keyframes dayMote { 0% { transform: translate3d(0, 0, 0); opacity: 0; } 12% { opacity: 0.85; } 88% { opacity: 0.5; } 100% { transform: translate3d(var(--dx), -92vh, 0); opacity: 0; } }
+
+/* birds cross the sky by day */
+.day .day-birds { opacity: calc(var(--light, 1) * 0.75); }
+.day .day-birds svg { position: absolute; inset: auto; left: -60px; height: auto; animation: dayFly var(--t) linear var(--d) infinite; }
+@keyframes dayFly { 0% { transform: translate(0, 0); } 25% { transform: translate(26vw, -10px); } 50% { transform: translate(52vw, 6px); } 75% { transform: translate(78vw, -8px); } 100% { transform: translate(calc(100vw + 120px), 2px); } }
+
+/* ── the dial: sun bloom + slow rays that travel with the sun ── */
+.day .sun-glow { position: absolute; left: var(--gx); top: var(--gy); width: 150%; aspect-ratio: 1; transform: translate(-50%, -50%); pointer-events: none; mix-blend-mode: screen;
+  background: radial-gradient(circle, rgba(var(--bloom, 255, 206, 125), calc(0.14 + var(--light, 1) * 0.34)) 0%, rgba(var(--bloom, 255, 206, 125), 0.06) 32%, transparent 62%); }
+.day .sun-rays { position: absolute; left: var(--gx); top: var(--gy); width: 130%; aspect-ratio: 1; transform: translate(-50%, -50%); pointer-events: none; mix-blend-mode: screen; opacity: calc(var(--light, 1) * 0.9); }
+.day .sun-rays::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(var(--bloom, 255, 206, 125), 0.2) 0 3deg, transparent 3deg 15deg); -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 62%); mask-image: radial-gradient(circle, #000 0%, transparent 62%); animation: daySpin 90s linear infinite; }
+@keyframes daySpin { to { transform: rotate(360deg); } }
+.day .sun-dial svg, .day .sun-time { position: absolute; }
+
+/* the clock: digits roll in one by one, the colon breathes */
+.day .sun-time { animation: none; perspective: 600px; }
+.day .sun-time .dig { display: inline-block; animation: dayDigit 0.7s var(--ease) both; }
+.day .sun-time .colon { display: inline-block; animation: dayColon 1.6s ease-in-out infinite; }
+@keyframes dayDigit { from { opacity: 0; transform: translateY(55%) rotateX(-80deg); filter: blur(5px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes dayColon { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+.day .day-place { animation: dayReveal 0.9s var(--ease) both; }
+.day .day-cap { animation: dayFade 0.9s 0.15s var(--ease) both; }
+@keyframes dayReveal { from { opacity: 0; clip-path: inset(0 0 100% 0); transform: translateY(14px); letter-spacing: 0.2em; } to { opacity: 1; clip-path: inset(0); transform: none; letter-spacing: normal; } }
+@keyframes dayFade { from { opacity: 0; transform: translateY(10px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+
+/* ── the photo: graded to the sky, slow push-in, soft pointer tilt ── */
+.day .day-card { --rx: 0deg; --ry: 0deg; --mx: 50%; --my: 30%; transform: perspective(1100px) rotateX(var(--rx)) rotateY(var(--ry)); transition: transform 0.5s var(--ease); will-change: transform;
+  box-shadow: 0 50px 90px -30px rgba(0, 0, 0, 0.75), 0 0 90px -25px color-mix(in srgb, var(--s1, #d98a5f) 55%, transparent); }
+.day .day-card img { filter: brightness(calc(0.84 + var(--light, 1) * 0.2)) saturate(1.06) contrast(1.04); }
+.day .day-card img.is-on { animation: dayPush 14s ease-out forwards; }
+@keyframes dayPush { from { transform: scale(1); } to { transform: scale(1.1); } }
+.day .day-card::before { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: inherit; mix-blend-mode: soft-light; opacity: 0.6; background: linear-gradient(160deg, var(--s0, #26345a), var(--s1, #d98a5f)); }
+.day .day-card::after { content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; border-radius: inherit;
+  background: radial-gradient(circle at var(--mx) var(--my), rgba(255, 235, 190, calc(var(--light, 1) * 0.16)), transparent 55%), radial-gradient(120% 100% at 50% 40%, transparent 60%, rgba(0, 0, 0, 0.35)); }
+
+/* timeline: every time of day has its own two-tone bar that fills as you scroll (like the Agni bar) */
+.day .tick-bar { position: relative; display: block; height: 3px; border-radius: 3px; overflow: visible; background: color-mix(in srgb, var(--t1) 30%, rgba(255, 248, 223, 0.12)); }
+.day .day-ticks button.is-on .tick-bar { background: color-mix(in srgb, var(--t1) 30%, rgba(255, 248, 223, 0.12)); }
+.day .tick-fill { position: absolute; inset: 0; border-radius: inherit; transform-origin: left; background: linear-gradient(90deg, var(--t1), var(--t2)); box-shadow: 0 0 12px color-mix(in srgb, var(--t2) 55%, transparent); }
+.day .tick-fill::after { content: ""; display: none; position: absolute; right: -3px; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%; background: var(--t2); box-shadow: 0 0 10px 2px color-mix(in srgb, var(--t2) 70%, transparent); }
+.day .day-ticks button.is-on .tick-fill::after { display: block; }
+.day .tick-t { transition: color 0.4s; }
+.day .day-ticks button.is-on .tick-t { color: var(--t2); font-weight: 500; }
+.day .day-ticks button:hover .tick-t { color: var(--cream); }
+
+/* phones: lighter effects */
+@media (max-width: 640px) {
+  .day .day-stars i:nth-child(even) { display: none; }
+  .day .day-motes i:nth-child(n + 10) { display: none; }
+  .day .sun-rays { width: 160%; }
+}
+/* reduced motion: still, but still graded */
+@media (prefers-reduced-motion: reduce) {
+  .day .day-motes, .day .day-birds { display: none; }
+  .day .day-grain, .day .sun-rays::before, .day .day-stars i, .day .day-card img.is-on, .day .sun-time .dig, .day .sun-time .colon, .day .day-place, .day .day-cap { animation: none !important; }
+  .day .day-card { transform: none !important; }
+}

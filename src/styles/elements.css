@@ -1,0 +1,54 @@
+/* ════════════════════════════════════════════════════════════════
+   Five elements — two-tone colours (self-contained).
+   Every selector starts with ".tx" so it always beats older .tx-* rules, whatever the file order.
+   The colours are also set here per panel, so this works even if Tathvas.jsx / content.js were not updated.
+   ════════════════════════════════════════════════════════════════ */
+
+/* 1 · colours of each element: brochure colour → lighter partner (edit them here or in content.js) */
+.tx .tx-stage { --a1: #0e5d30; --a2: #89b13f; }
+.tx .tx-panel:nth-child(1) { --c: #0e5d30; --c1: #0e5d30; --c2: #89b13f; }  /* Prithvi · Earth  */
+.tx .tx-panel:nth-child(2) { --c: #126166; --c1: #126166; --c2: #4fb7c2; }  /* Jal · Water      */
+.tx .tx-panel:nth-child(3) { --c: #861f1f; --c1: #861f1f; --c2: #e8903c; }  /* Agni · Fire      */
+.tx .tx-panel:nth-child(4) { --c: #9a969e; --c1: #9a969e; --c2: #d3dde6; }  /* Vayu · Air       */
+.tx .tx-panel:nth-child(5) { --c: #71499d; --c1: #71499d; --c2: #c58ad8; }  /* Akash · Space    */
+
+/* 2 · the photo is tinted in the element's two colours, then darkened for legibility */
+.tx .tx-panel img { filter: saturate(0.9) contrast(1.05); }
+.tx .tx-panel::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; mix-blend-mode: soft-light; opacity: 0.55; background: linear-gradient(135deg, var(--c1), var(--c2)); }
+.tx .tx-shade {
+  z-index: 1;
+  background:
+    radial-gradient(120% 90% at 6% 104%, rgba(6, 22, 15, 0.5) 0%, transparent 62%),
+    linear-gradient(0deg, rgba(6, 22, 15, 0.94) 0%, rgba(6, 22, 15, 0.55) 44%, rgba(6, 22, 15, 0.12) 100%),
+    linear-gradient(90deg, rgba(6, 22, 15, 0.55), transparent 62%);
+}
+.tx .tx-shade::after { content: ""; position: absolute; inset: 0; background: radial-gradient(90% 70% at 4% 100%, color-mix(in srgb, var(--c1) 55%, transparent), transparent 60%), radial-gradient(70% 60% at 100% 0%, color-mix(in srgb, var(--c2) 26%, transparent), transparent 62%); }
+.tx .tx-panel::after { content: ""; position: absolute; z-index: 3; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(180deg, transparent, var(--c2), transparent); opacity: 0.65; pointer-events: none; }
+.tx .tx-body { z-index: 2; }
+
+/* 3 · the element label: glass pill, gradient hairline, gradient-filled icon */
+.tx .tx-chip { position: relative; display: inline-flex; align-items: center; gap: 10px; padding: 7px 20px 7px 8px; border: 0; border-radius: 999px; background: rgba(6, 22, 15, 0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: var(--cream); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.26em; text-transform: uppercase; }
+.tx .tx-chip::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none; background: linear-gradient(135deg, var(--c2), var(--c1)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+.tx .tx-chip svg { width: 28px; height: 28px; padding: 6px; border-radius: 50%; color: #fff; background: linear-gradient(135deg, var(--c1), var(--c2)); }
+
+/* 4 · the big word gets a soft cream-to-tint gradient; the paragraph gets a coloured rule */
+.tx .tx-word { background: linear-gradient(180deg, #fffdf0 28%, color-mix(in srgb, var(--c2) 52%, #fff8df) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.4)); padding-bottom: 0.04em; }
+.tx .tx-rule { display: block; width: min(240px, 46vw); height: 2px; border-radius: 2px; background: linear-gradient(90deg, var(--c1), var(--c2) 55%, transparent); }
+.tx .tx-text { padding-left: 18px; font-weight: 300; line-height: 1.85; color: rgba(255, 248, 223, 0.92); border-left: 2px solid transparent; border-image: linear-gradient(180deg, var(--c2), transparent) 1; }
+
+/* 5 · outlined numeral behind the copy (needs the updated Tathvas.jsx) */
+.tx .tx-ghost { position: absolute; z-index: 1; right: clamp(20px, 6vw, 110px); top: 50%; margin-top: -0.55em; font-size: clamp(9rem, 30vw, 28rem); line-height: 1; pointer-events: none; user-select: none; color: transparent; -webkit-text-fill-color: transparent; -webkit-text-stroke: 1.5px color-mix(in srgb, var(--c2) 62%, transparent); opacity: 0.5; }
+
+/* 6 · frame + counter take the colours of the element on screen */
+.tx .tx-stage::after { content: ""; position: absolute; z-index: 4; inset: clamp(10px, 1.6vw, 22px); pointer-events: none; border: 1px solid transparent; border-image: linear-gradient(135deg, color-mix(in srgb, var(--a2) 55%, transparent), rgba(255, 248, 223, 0.1) 38%, rgba(255, 248, 223, 0.1) 62%, color-mix(in srgb, var(--a1) 70%, transparent)) 1; }
+.tx .tx-count { background: linear-gradient(135deg, var(--a2), var(--cream)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.tx .tx-count i { -webkit-text-fill-color: var(--cream-dim); }
+.tx .tx-nav button.is-on .tx-lab { color: var(--cream); letter-spacing: 0.04em; }
+
+@media (max-width: 640px) {
+  .tx .tx-ghost { font-size: clamp(8rem, 58vw, 15rem); top: 34%; right: -2vw; opacity: 0.4; -webkit-text-stroke-width: 1px; }
+  .tx .tx-text { padding-left: 14px; }
+  .tx .tx-chip { font-size: 0.66rem; letter-spacing: 0.2em; }
+}
+@media (max-height: 620px) and (orientation: landscape) { .tx .tx-ghost { display: none; } .tx .tx-text { padding-left: 12px; } }
+@media (prefers-reduced-motion: reduce) { .tx .tx-ghost { transform: none !important; } }
